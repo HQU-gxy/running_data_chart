@@ -57,6 +57,7 @@ export default {
         title: {
           text:this.title
         },
+        animation: false,
         xAxis: {
           type: 'time',
         },
