@@ -20,6 +20,10 @@ export default {
     title: {
       type: String,
       required: true,
+    },
+    arrayNames:{
+      type: Array,
+      default: () => ['x', 'y', 'z']
     }
   },
   data() {
@@ -57,6 +61,7 @@ export default {
         title: {
           text:this.title
         },
+        animation: false,
         xAxis: {
           type: 'time',
         },
@@ -75,7 +80,7 @@ export default {
         series: [
           {
             type: 'line',
-            name: 'array0',
+            name: this.arrayNames[0],
             encode: {
               x: 'time',
               y: 'array0'
@@ -83,7 +88,7 @@ export default {
           },
           {
             type: 'line',
-            name: 'array1',
+            name: this.arrayNames[1],
             encode: {
               x: 'time',
               y: 'array1'
@@ -91,7 +96,7 @@ export default {
           },
           {
             type: 'line',
-            name: 'array2',
+            name: this.arrayNames[2],
             encode: {
               x: 'time',
               y: 'array2'
