@@ -31,6 +31,10 @@ onMounted(() => {
 
 const MAX_LEN = 100
 
+/**
+ * @brief push an item to an array, and keep the array length <= maxLen
+ * @effect would mutate the array in-place
+ */
 function pushWithSize(arr: number[][], item: number[], maxLen: number) {
   arr.push(item)
   if (arr.length > maxLen) {
