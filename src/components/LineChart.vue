@@ -1,5 +1,5 @@
 <template>
-  <div ref="chart" style="width: 800px; height: 300px;"></div>
+  <div ref="chart" style="width: 1000px; height: 300px;"></div>
 </template>
 
 <script>
@@ -7,9 +7,8 @@ import * as echarts from 'echarts'
 import VueECharts from 'vue-echarts'
 import {markRaw, toRaw} from "vue";
 
-// let chart = {}
 export default {
-  name: 'Chart',
+  name: 'LineChart',
   components: {
     VueECharts,
   },
@@ -70,19 +69,7 @@ export default {
         legend: {},
         yAxis: {},
         dataset: {
-          dimensions: ['time', '2015', '2016', '2017'],
-          // source: [
-          //   {time: new Date(2022, 0, 1), '2015': 43.3, '2016': 85.8, '2017': 93.7},
-          //   {time: new Date(2022, 0, 2), '2015': 83.1, '2016': 73.4, '2017': 55.1},
-          //   {time: new Date(2022, 0, 3), '2015': 86.4, '2016': 65.2, '2017': 82.5},
-          //   {time: new Date(2022, 0, 4), '2015': 72.4, '2016': 53.9, '2017': 39.1}
-          // ],
-          // source: [
-          //   [new Date(2022, 0, 1), 43.3, 85.8, 93.7],
-          //   [new Date(2022, 0, 2), 83.1, 73.4, 55.1],
-          //   [new Date(2022, 0, 3), 86.4, 65.2, 82.5],
-          //   [new Date(2022, 0, 4), 72.4, 53.9, 39.1]
-          // ]
+          dimensions: ['time', 'array0', 'array1', 'array2'],
           source: toRaw(this.data)
         },
         series: [
@@ -91,7 +78,7 @@ export default {
             name: 'array0',
             encode: {
               x: 'time',
-              y: '2015'
+              y: 'array0'
             }
           },
           {
@@ -99,7 +86,7 @@ export default {
             name: 'array1',
             encode: {
               x: 'time',
-              y: '2016'
+              y: 'array1'
             }
           },
           {
@@ -107,7 +94,7 @@ export default {
             name: 'array2',
             encode: {
               x: 'time',
-              y: '2017'
+              y: 'array2'
             }
           },
         ],

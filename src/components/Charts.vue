@@ -1,26 +1,23 @@
 <script setup>
-import {onMounted, reactive, ref, toRaw, watch} from 'vue'
+import {onMounted, ref} from 'vue'
 import * as mqtt from "mqtt";
-import Chart from "./LineChart.vue"; // import everything inside the mqtt module and give it the namespace "mqtt"
+import LineChart from "./LineChart.vue";
 
 defineProps({
   msg: String,
 })
 
 let chartData = ref({})
-let dataReady = ref(false)
 let curDev = ref('')
 
 onMounted(() => {
   initMqtt()
-  initData('aaa')
-  dataReady.value = true
 })
 
 function initMqtt() {
   let client = mqtt.connect("mqtt://weihua-iot.cn:9001"); // mqtt websocket port
   client.on("connect", () => {
-    client.subscribe("/wit/+/test", (err) => {
+    client.subscribe("/wit/+/gyro", (err) => {
       if (!err) {
         console.log('subscribe succeed')
       }
@@ -38,22 +35,19 @@ function initMqtt() {
     if (!chartData.value[devId]) {
       initData(devId)
     }
+
     chartData.value[devId].accel.push(data.accel)
     chartData.value[devId]['angle-vel'].push(data['angle-vel'])
     chartData.value[devId].angle.push(data.angle)
-    // console.log(data)
-    // console.log(chartData)
   });
 }
 
 function getId(topic) {
-  const pattern = /\/wit\/(?<dev_id>[^/]+)\/test/;
+  const pattern = /\/wit\/(?<dev_id>[^/]+)\/gyro/;
   const match = topic.match(pattern);
 
   if (match) {
-    const dev_id = match.groups.dev_id;
-    console.log(dev_id);
-    return dev_id
+    return match.groups.dev_id
   } else {
     console.log("No match found.");
   }
@@ -80,10 +74,10 @@ function initData(id) {
           :value="item">
       </el-option>
     </el-select>
-    <div >
-      <Chart title="accel" :data="chartData[curDev] ? chartData[curDev].accel : []"/>
-      <Chart title="angle-vel" :data="chartData[curDev]?chartData[curDev]['angle-vel'] : []"/>
-      <Chart title="angle" :data="chartData[curDev]?chartData[curDev].angle : []"/>
+    <div>
+      <LineChart title="accel" :data="chartData[curDev] ? chartData[curDev].accel : []"/>
+      <LineChart title="angle-vel" :data="chartData[curDev]?chartData[curDev]['angle-vel'] : []"/>
+      <LineChart title="angle" :data="chartData[curDev]?chartData[curDev].angle : []"/>
     </div>
     <div>
     </div>

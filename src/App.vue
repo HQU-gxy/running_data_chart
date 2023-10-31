@@ -3,7 +3,7 @@ import Charts from "./components/Charts.vue";
 </script>
 
 <template>
-  <Charts msg="Vite + Vue" />
+  <Charts/>
 </template>
 
 <style scoped>
