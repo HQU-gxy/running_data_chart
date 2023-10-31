@@ -5,9 +5,9 @@
 <script>
 import * as echarts from 'echarts'
 import VueECharts from 'vue-echarts'
-import {toRaw} from "vue";
+import {markRaw, toRaw} from "vue";
 
-let chart = {}
+// let chart = {}
 export default {
   name: 'Chart',
   components: {
@@ -25,7 +25,7 @@ export default {
   },
   data() {
     return {
-      // chart: {},
+      chart: {},
       option: {}
     }
   },
@@ -47,12 +47,12 @@ export default {
 
     setOptions() {
       this.option.dataset.source = toRaw(this.data)
-      chart.setOption({
+      this.chart.setOption({
         dataset: this.option.dataset
       })
     },
     renderChart() {
-      chart = echarts.init(this.$refs.chart)
+      this.chart = markRaw(echarts.init(this.$refs.chart))
 
       this.option = {
         title: {
@@ -113,7 +113,7 @@ export default {
         ],
       }
 
-      chart.setOption(this.option)
+      this.chart.setOption(this.option)
     },
   },
 }

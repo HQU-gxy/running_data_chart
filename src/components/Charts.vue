@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, reactive, ref, toRaw} from 'vue'
+import {onMounted, reactive, ref, toRaw, watch} from 'vue'
 import * as mqtt from "mqtt";
 import Chart from "./LineChart.vue"; // import everything inside the mqtt module and give it the namespace "mqtt"
 
@@ -9,6 +9,7 @@ defineProps({
 
 let chartData = ref({})
 let dataReady = ref(false)
+let curDev = ref('')
 
 onMounted(() => {
   initMqtt()
@@ -33,10 +34,10 @@ function initMqtt() {
     data['angle-vel'].unshift(curTime)
     data.angle.unshift(curTime)
 
-    if (!chartData[topic.toString()]) {
-      initData(topic.toString())
-    }
     const devId = getId(topic)
+    if (!chartData.value[devId]) {
+      initData(devId)
+    }
     chartData.value[devId].accel.push(data.accel)
     chartData.value[devId]['angle-vel'].push(data['angle-vel'])
     chartData.value[devId].angle.push(data.angle)
@@ -71,11 +72,20 @@ function initData(id) {
 <template>
 
   <div class="card">
-
-    <div v-if="dataReady">
-      <Chart title="accel" :data="chartData['aaa'].accel"/>
-      <Chart title="angle-vel" :data="chartData['aaa']['angle-vel']"/>
-      <Chart title="angle" :data="chartData['aaa'].angle"/>
+    <el-select v-model="curDev" placeholder="请选择">
+      <el-option
+          v-for="item in Object.keys(chartData) "
+          :key="item"
+          :label="item"
+          :value="item">
+      </el-option>
+    </el-select>
+    <div >
+      <Chart title="accel" :data="chartData[curDev] ? chartData[curDev].accel : []"/>
+      <Chart title="angle-vel" :data="chartData[curDev]?chartData[curDev]['angle-vel'] : []"/>
+      <Chart title="angle" :data="chartData[curDev]?chartData[curDev].angle : []"/>
+    </div>
+    <div>
     </div>
   </div>
 </template>
