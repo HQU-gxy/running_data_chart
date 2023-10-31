@@ -95,7 +95,7 @@ function initData(id: string) {
     <div>
       <LineChart title="accel" :data="chartData[curDev] ? chartData[curDev].accel : []" />
       <LineChart title="angle-vel" :data="chartData[curDev] ? chartData[curDev].angle_vel : []" />
-      <LineChart title="angle" :data="chartData[curDev] ? chartData[curDev].angle : []" />
+      <LineChart title="angle" :arrayNames="['yaw', 'pitch', 'roll']" :data="chartData[curDev] ? chartData[curDev].angle : []" />
     </div>
     <div>
     </div>
